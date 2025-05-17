@@ -1,0 +1,6 @@
+@CamKoob.Auth.API_HostAddress = http://localhost:5258
+
+GET {{CamKoob.Auth.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
