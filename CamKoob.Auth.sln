@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamKoob.Auth.API", "CamKoob.Auth.API\CamKoob.Auth.API.csproj", "{72CD6C21-FC8D-4F0A-92CA-688348738728}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamKoob.Auth.ProtectedAPI", "CamKoob.Auth.ProtectedAPI\CamKoob.Auth.ProtectedAPI.csproj", "{978A9037-DF1F-4647-91B3-84DF636CCE03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{72CD6C21-FC8D-4F0A-92CA-688348738728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72CD6C21-FC8D-4F0A-92CA-688348738728}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72CD6C21-FC8D-4F0A-92CA-688348738728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978A9037-DF1F-4647-91B3-84DF636CCE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978A9037-DF1F-4647-91B3-84DF636CCE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978A9037-DF1F-4647-91B3-84DF636CCE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978A9037-DF1F-4647-91B3-84DF636CCE03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

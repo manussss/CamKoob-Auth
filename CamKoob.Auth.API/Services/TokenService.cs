@@ -13,9 +13,7 @@ public class TokenService : ITokenService
     public TokenService(IConfiguration config, RsaSecurityKey rsaKey)
     {
         _config = config;
-        var rsa = RSA.Create();
-        rsa.ImportFromPem(File.ReadAllText("private.key"));
-        _rsaKey = new RsaSecurityKey(rsa);
+        _rsaKey = rsaKey;
     }
 
     public string GenerateToken(string username, string role)
@@ -48,15 +46,14 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Role, role)
         };
 
-        var creds = new SigningCredentials(_rsaKey, SecurityAlgorithms.RsaSha256);
+        var credentials = new SigningCredentials(_rsaKey, SecurityAlgorithms.RsaSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
+            issuer: "MinhaApi",
+            audience: "ClienteWeb",
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
-            signingCredentials: creds
-        );
+            expires: DateTime.UtcNow.AddMinutes(30),
+            signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

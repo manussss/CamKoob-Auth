@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 using CamKoob.Auth.API.Models;
 using CamKoob.Auth.API.Services;
@@ -10,23 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<RsaSecurityKey>(provider =>
+{
+    var rsa = RSA.Create();
+    rsa.ImportFromPem(File.ReadAllText("Keys/private.key"));
+    return new RsaSecurityKey(rsa);
+});
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
-    });
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
@@ -38,13 +31,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/api/v1/login", (
+app.MapPost("/api/v1/login/asymmetric", (
     [FromServices] ITokenService tokenService,
     [FromBody] LoginRequest request) =>
 {
     if (request.Username == "admin" && request.Password == "123")
     {
-        var token = tokenService.GenerateToken("admin", "Administrator");
+        var token = tokenService.GenerateAsymToken("admin", "Administrator");
         return Results.Ok(new { token });
     }
 
